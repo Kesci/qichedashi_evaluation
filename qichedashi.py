@@ -69,7 +69,7 @@ def calc_score(candidate, refs):
 
 def validate(submit_file, test_file):
 
-    submission = pd.read_csv(submit_file, dtype={'QID': str, 'Report': str})
+    submission = pd.read_csv(submit_file, dtype={'QID': str, 'Prediction': str})
 
     groundtruth = pd.read_csv(test_file, dtype={'QID': str, 'Report': str})
 
@@ -89,7 +89,7 @@ def validate(submit_file, test_file):
 
 
 def score(submit_file, test_file):
-    submission = pd.read_csv(submit_file, dtype={'QID': str, 'Report': str}, index_col=False)
+    submission = pd.read_csv(submit_file, dtype={'QID': str, 'Prediction': str}, index_col=False)
 
     groundtruth = pd.read_csv(test_file, dtype={'QID': str, 'Report': str}, index_col=False)
 
