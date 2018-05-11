@@ -67,7 +67,7 @@ def calc_score(candidate, refs):
     return score
 
 
-def validate(submit_file, test_file):
+def validate(submit_file, test_file, options):
 
     submission = pd.read_csv(submit_file, dtype={'QID': str, 'Prediction': str})
 
@@ -88,17 +88,18 @@ def validate(submit_file, test_file):
     }
 
 
-def score(submit_file, test_file):
+def score(submit_file, test_file, options):
     submission = pd.read_csv(submit_file, dtype={'QID': str, 'Prediction': str}, index_col=False)
 
     groundtruth = pd.read_csv(test_file, dtype={'QID': str, 'Report': str}, index_col=False)
 
     tmp = pd.merge(submission, groundtruth, on='QID', how='inner')
-    tmp.columns = ['submit_answer', 'QID', 'truth_answer']
+    if list(tmp.columns) != ['QID', 'Prediction','Report']:
+        raise 'column name is wrong'
 
     score = []
 
-    for submit, answer in zip(tmp['submit_answer'],tmp['truth_answer']):
+    for submit, answer in zip(tmp['Prediction'],tmp['Report']):
         sc = calc_score([submit],[answer])
         score.append(sc)
     
@@ -112,11 +113,17 @@ def score(submit_file, test_file):
 
 
 
+
+
+
+
 if __name__ == '__main__':
+    
     submit_file = sys.argv[1]
-    test_file =  sys.argv[2]
-    print(validate(submit_file, test_file))
-    print(score(submit_file, test_file))
+    test_file = sys.argv[2]
+
+    print (validate(submit_file,test_file,options=True))
+    print (score(submit_file,test_file,options=True))
 
 
 
