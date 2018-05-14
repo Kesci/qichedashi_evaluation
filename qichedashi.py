@@ -95,7 +95,7 @@ def score(submit_file, test_file, options):
 
     tmp = pd.merge(submission, groundtruth, on='QID', how='inner')
     if list(tmp.columns) != ['QID', 'Prediction','Report']:
-        raise 'column name is wrong'
+        raise Exception('column name is wrong')
 
     score = []
 
